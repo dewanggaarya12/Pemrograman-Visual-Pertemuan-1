@@ -6,6 +6,7 @@ let todayWindow;
 let createWindow;
 let listWindow;
 
+//Start Awal Membuat Aplikasi
 app.on("ready", () => {
     todayWindow = new BrowserWindow({
         webPreferences:{
@@ -19,4 +20,69 @@ app.on("ready", () => {
         app.quit();
         todayWindow = null;
     });
+
+    const mainMenu = Menu.buildFromTemplate(menuTemplate);
+     Menu.setApplicationMenu(mainMenu);
+  
 });
+
+//Pembuatan windows Create
+const listWindowCreator = () => {
+    listWindow = new BrowserWindow({
+        webPreferences: {
+            nodeIntegration: true
+        },
+        width: 600,
+        height: 400,
+        title: "LIhat Semua Permakluman"
+    });
+
+    listWindow.setMenu(null);
+    listWindow.loadURL(`file://${__dirname}/list.html`);
+    listWindow.on("closed", () => (listWindow = null))
+};
+
+//Pembuatan windows list
+const createWindowCreator = () => {
+    createWindow = new BrowserWindow({
+        webPreferences: {
+            nodeIntegration: true
+        },
+        width: 600,
+        height: 400,
+        title: "Buat Permakluman"
+    });
+
+    createWindow.setMenu(null);
+    createWindow.loadURL(`file://${__dirname}/create.html`);
+    createWindow.on("closed", () => (createWindow = null));
+};
+
+
+//Pembuatan list Menu
+const menuTemplate =[{
+    label: "File",
+    submenu: [{
+        label: "Permakluman Baru",
+        click(){
+            createWindowCreator();
+            }
+        },{
+        label: "Semua Permakluman",
+        click(){
+            listWindowCreator();
+            } 
+        },{
+        label: "Quit",
+        accelerator: process.platform === "darwin" ? "Command + Q" : "Ctrl + Q",
+        click(){
+            app.quit();
+        }    
+        }
+    ]
+},
+{
+    label: "View",
+    submenu: [{ role: "reload" }, { role: "toggledevtools"}]
+}
+]
