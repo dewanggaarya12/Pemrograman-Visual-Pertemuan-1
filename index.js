@@ -58,6 +58,9 @@ const createWindowCreator = () => {
     createWindow.on("closed", () => (createWindow = null));
 };
 
+ipcMain.on("appointment:create", (event, appointment) => {
+    console.log(appointment);
+});
 
 //Pembuatan list Menu
 const menuTemplate =[{

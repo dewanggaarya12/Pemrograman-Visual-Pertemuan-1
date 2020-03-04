@@ -3,6 +3,50 @@
     </head>
     
     <body>
-        <h1>Buat Permakluman disini!</h1>
+        <h3>Buat Keterangan</h3>
+        <form id="form">
+            <label for="name">Nama: </label>  <br /> <br />
+            <input type="text" name="name" required>
+            
+            <br /> <br />
+            
+            <label for="phone_number">Nomor Telepon: </label>  <br /> <br />
+            <input type="number" name="phone_number" required>
+            
+            <br /> <br />
+
+            <label for="date">Tanggal: </label>  <br /> <br />
+            <input type="date" name="date" placeholder="DD-MM-YYYY" required>
+
+            <br /> <br />
+
+            <label for="hour">Pukul: </label> <br /> <br />
+            <input type="text" name="hour" placeholder="hh:mm" required>
+
+            <br /> <br />
+
+            <label for="symptoms">Alasan Pertemuan: </label><br />
+            <textarea type="text" name="symptoms" cols="20" rows="15"></textarea> <br /> <br />
+            <input type="Submit"/>
+        </form>
+
+        <script>
+            const electron = require("electron");
+            const {ipcRenderer} = electron;
+
+            const form = document.getElementById("form");
+            const elements = {};
+
+            form.addEventListener("submit", event => {
+                event.preventDefault();
+
+                for (let i = 0; i < form.elements.length; i++) {
+                    if (form.elements[i].type !== "submit"){
+                        elements[form.elements[i].name] = form.elements[i].value;
+                    }
+                }
+                ipcRenderer.send("appointment:create", elements);
+            });
+        </script>
     </body>
 </html>
