@@ -1,44 +1,38 @@
 <html>
-    <head>
-    </head>
     
     <body>
-        <h1>Today Window</h1>
+        <h1>List Window</h1>
         <div id="list"></div>
-    </body>
+    
 
     <script>
         const electron = require("electron");
         const {ipcRenderer} = electron;
-        ipcRenderer.send("appointment:request:today");
+        ipcRenderer.send("appointment:request:list");
 
-        ipcRenderer.on("appointment:request:today", (event, appointments) => {
-            const listDiv = document.getElementById("List");
-            appointments.forEach(appointments => {
+        ipcRenderer.on('appointment:response:list', (event, appointments) => {
+            const listDiv = document.getElementById("list");
+            appointments.forEach(appointment => {
                 const appointmentDiv = document.createElement("div");
 
                 const nameParagraph = document.createElement("p");
-                nameParagraph.innerHTML = 'Name: ${appointment.name}';
+                nameParagraph.innerHTML = `Name: ${appointment.name}`;
 
                 const numberParagraph = document.createElement("p");
-                numberParagraph.innerHTML = 'Phone Number: ${appointment.number}';
+                numberParagraph.innerHTML = `Phone Number: ${appointment.phone_number}`;
 
                 const dateParagraph = document.createElement("p");
-                dateParagraph.innerHTML = 'Date: ${appointment.date}';
+                dateParagraph.innerHTML = `Date: ${appointment.date}`;
 
                 const hourParagraph = document.createElement("p");
-                hourParagraph.innerHTML = 'Hour: ${appointment.hour}';
+                hourParagraph.innerHTML = `Hour: ${appointment.hour}`;
 
                 const symptomsParagraph = document.createElement("p");
-                symptomsParagraph.innerHTML = 'Symptoms: ${appointment.symptoms}';
+                symptomsParagraph.innerHTML = `Symptoms: ${appointment.symptoms}`;
 
                 const doneParagraph = document.createElement("p");
-                doneParagraph.innerHTML = 'Done: ${appointment.done ? "Yes" : "No"}';
+                doneParagraph.innerHTML = `Done: ${appointment.done ? "Yes" : "No"}`;
 
-                const doneButton = document.createElement("buttton");
-                doneButton.innerHTML = "Done";
-                doneButton.disabled = appointment.done ? true : false;
-                doneButton.onclick = () => done(appointment.id);
 
                 const hr = document.createElement("hr");
 
@@ -54,8 +48,9 @@
             });
         });
 
-        const done = id =>{
-            ipcRenderer.send("appointment:done", id);
-        };
+        // const done = id =>{
+        //     ipcRenderer.send("appointment:done", id);
+        // };
     </script>
+    </body>
 </html>
